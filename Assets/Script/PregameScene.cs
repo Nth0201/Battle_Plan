@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PregameScene : MonoBehaviour, IBaseScene
+public class PregameScene :  IBaseScene
 {
-    public void DisposeScene()
+    public void Dispose()
     {
     }
 
@@ -15,18 +15,4 @@ public class PregameScene : MonoBehaviour, IBaseScene
     {
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void OnClickEnterGame() {
-        ApplicationControl.GetInstance().GetSingleton<EventBus>().Publish( new EnterGameEvent() );
-    }
 }

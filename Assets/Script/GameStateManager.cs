@@ -3,12 +3,13 @@ using Assets.Script.Event;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameStateManager{
     public GameState CurrentState {  get; private set; }
-    private IBaseScene _scene; 
     private IEventBus _eventBus;
     public GameStateManager(IEventBus eventBus) {
         _eventBus = eventBus;
@@ -29,25 +30,23 @@ public class GameStateManager{
             return false;
 
         CurrentState = state;
- 
+
+        switch (CurrentState)
+        {
+            case GameState.GAMEPLAY:
+                _eventBus.Publish(new EnterGameState());
+                break;
+            case GameState.PREGAME:
+                _eventBus.Publish(new EnterPregameState());
+                break;
+            case GameState.POSTGAME:
+                _eventBus.Publish(new EnterPostgameState());
+                break;
+        }
+        
         return true;
     }
     
-    private string _LoadSceneMap(GameState state) { 
-        switch (state)
-        {
-            case GameState.NONE:
-                return "";
-            case GameState.PREGAME:
-                return "Scenes/PregameScene";
-            case GameState.GAMEPLAY:
-                return "Scenes/GameplayScene";
-            case GameState.POSTGAME:
-                return "Scenes/PostgameScene";
-            default:
-                return "";
-        }
-    }
 
 }
 

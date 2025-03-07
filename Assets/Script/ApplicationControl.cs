@@ -20,11 +20,9 @@ namespace Assets.Script
         }
         public T GetSingleton<T>()
         {
-            foreach (var item in _singleton) {
-                if (item is T target) { 
-                return (T)target; }
-            }
-            return default;
+            if (GetInstance()._singleton.TryGetValue(typeof(T), out var result))
+                return (T)result;
+            throw new Exception("Get Wrong Singleton");
         }
     }
 }
